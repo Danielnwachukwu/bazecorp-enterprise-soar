@@ -525,6 +525,23 @@ The published source package additionally provides code for inspection across at
 
 The available evidence supports the demonstrated capabilities listed above, not claims of complete enterprise production readiness.
 
-## 13. Disclaimer — Simulated Enterprise Environment
+13. Disclaimer — Simulated Enterprise Environment
 
-**BAZEC
+BAZECORP Enterprise SOAR is an independently developed cybersecurity project designed to demonstrate how an enterprise SOC and SOAR solution can operate.
+
+The name BAZECORP is used as a fictional enterprise environment for demonstration and educational purposes. This project does not represent, belong to, or claim deployment within any actual organisation or employer, including any organisation with a similar name.
+
+All displayed IP addresses, hostnames, usernames, network configurations, security events, incident reports and other organisational details are simulated lab information or controlled test data. They must not be interpreted as actual infrastructure, confidential information, or security incidents belonging to a real organisation.
+
+This project is independently developed and tested in a controlled virtual lab environment. Its purpose is to demonstrate enterprise-style security monitoring, threat detection, event correlation, MITRE ATT&CK enrichment, automated incident reporting and analyst-led response workflows.
+
+14. Project Philosophy
+
+The objective is not simply to generate alerts. It is to demonstrate how security telemetry can be transformed into structured, contextualised and actionable information for SOC analysts.
+
+Detect. Correlate. Enrich. Report. Investigate.
+
+FINAL DECISION LEFT FOR THE ANALYST.
+
+BAZECORP Enterprise SOAR
+Automated Security Monitoring & Incident Reporting
