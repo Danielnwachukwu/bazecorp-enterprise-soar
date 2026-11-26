@@ -544,4 +544,4 @@ Detect. Correlate. Enrich. Report. Investigate.
 FINAL DECISION LEFT FOR THE ANALYST.
 
 BAZECORP Enterprise SOAR
-Automated Security Monitoring & Incident Reporting
+Automated Security Monitoring & Incident Reporting.
