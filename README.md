@@ -26,6 +26,12 @@ The system is designed to support security analysts by reducing manual monitorin
 
 The platform supports detection and reporting. Investigation, validation and authorization of response actions remain with the analyst.
 
+### Source Code Publication
+
+The repository now includes a dedicated `SOAR-SOURCE-REVIEW/` directory containing the published Python source files, supporting modules, configuration templates, detection logic, MITRE ATT&CK mapping, notification components and supporting documentation.
+
+This source package is provided for technical inspection, learning, transparency and further development. Its inclusion does not mean that every included module has been integrated into or validated as part of the demonstrated live monitoring workflow.
+
 ## 2. Project Objectives
 
 - Develop a continuously running endpoint monitoring workflow.
@@ -47,54 +53,53 @@ The project uses a distributed lab architecture consisting of an attacker machin
 
 ```text
                  CONTROLLED SECURITY LAB
-                         |
-                         |
-              +----------------------+
-              |     KALI LINUX       |
-              |   Attacker Machine   |
-              |   192.168.56.111     |
-              +----------+-----------+
-                         |
-                         | Controlled attack simulations
-                         | Nmap / SMB / PowerShell tests
-                         |
-                         v
-              +----------------------+
-              |   WINDOWS 11         |
-              |   SOC ENDPOINT       |
-              |   192.168.56.1       |
-              |                      |
-              |   Sysmon             |
-              |   Windows Security   |
-              |   Wazuh Agent        |
-              |   Python Live Monitor|
-              +----------+-----------+
-                         |
-               +---------+----------+
-               |                    |
-               |                    |
-               v                    v
-      +------------------+   +----------------------+
-      | PYTHON SOAR      |   | WAZUH SERVER         |
-      | DETECTION ENGINE |   | 192.168.56.122       |
-      |                  |   |                      |
-      | Event Monitoring |   | Wazuh Manager        |
-      | Event Correlation|   | Wazuh Indexer        |
-      | MITRE Mapping    |   | Wazuh Dashboard      |
-      | Severity Rating  |   | Central Event Review |
-      +--------+---------+   +----------------------+
-               |
-               | Structured incident notification
-               v
-      +----------------------+
-      | TELEGRAM             |
-      | SOC NOTIFICATIONS    |
-      |                      |
-      | Incident Reports     |
-      | Severity Levels      |
-      | MITRE ATT&CK Details |
-      | Analyst Assessment   |
-      +----------------------+
+                          |
+                          |
+                +----------------------+
+                |     KALI LINUX       |
+                |   Attacker Machine   |
+                |   192.168.56.111     |
+                +----------+-----------+
+                           |
+                           | Controlled attack simulations
+                           | Nmap / SMB / PowerShell tests
+                           |
+                           v
+                +----------------------+
+                |   WINDOWS 11         |
+                |   SOC ENDPOINT       |
+                |   192.168.56.1       |
+                |                      |
+                |   Sysmon             |
+                |   Windows Security   |
+                |   Wazuh Agent        |
+                |   Python Live Monitor|
+                +----------+-----------+
+                           |
+                 +---------+----------+
+                 |                    |
+                 v                    v
+        +------------------+   +----------------------+
+        | PYTHON SOAR      |   | WAZUH SERVER         |
+        | DETECTION ENGINE |   | 192.168.56.122       |
+        |                  |   |                      |
+        | Event Monitoring |   | Wazuh Manager        |
+        | Event Correlation|   | Wazuh Indexer        |
+        | MITRE Mapping    |   | Wazuh Dashboard      |
+        | Severity Rating  |   | Central Event Review |
+        +--------+---------+   +----------------------+
+                 |
+                 | Structured incident notification
+                 v
+        +----------------------+
+        | TELEGRAM             |
+        | SOC NOTIFICATIONS    |
+        |                      |
+        | Incident Reports     |
+        | Severity Levels      |
+        | MITRE ATT&CK Details |
+        | Analyst Assessment   |
+        +----------------------+
 ```
 
 ### Lab components
@@ -302,60 +307,187 @@ Automated incident notifications generated by the Python monitoring workflow.
 
 ![T4.1 Telegram PowerShell MITRE Assessment](TELEGRAM%20REPORTS/T4.1-Telegram-MITRE-T1059.001-PowerShell-Execution-Assessment.png)
 
+### 8.4 Demonstration videos
+
+The following videos provide recorded demonstrations of controlled lab testing and monitoring.
+
+**Video 1 — Encoded PowerShell detection demonstration**
+
+[Watch or download the encoded PowerShell detection demonstration](DEMO%20VIDEOS/01-encoded-powershell-detection-demo.mp4)
+
+Demonstrates harmless encoded PowerShell execution simulation and the resulting security notification.
+
+**Video 2 — Kali SMB authentication test**
+
+[Watch or download the Kali SMB authentication test](DEMO%20VIDEOS/02-kali-smb-authentication-test-demo.mp4)
+
+Demonstrates controlled SMB authentication testing from Kali Linux and associated monitoring activity.
+
+**Video 3 — SMB password guessing monitoring demonstration**
+
+[Watch or download the SMB password guessing monitoring demonstration](DEMO%20VIDEOS/03-smb-password-guessing-monitoring-demo.mp4)
+
+Demonstrates controlled failed SMB authentication attempts and the monitoring workflow.
+
+*Note: These are compressed MP4 files stored in the repository. GitHub may offer them as downloadable files rather than inline playback, depending on its preview support.*
+
 ## 9. Repository Structure
 
-The repository is organised around the monitoring engine, detection modules, MITRE enrichment, notifications, datasets and supporting evidence.
+The repository contains the original project evidence and documentation alongside a separately published source-review package.
+
+### Main repository structure
 
 ```text
 bazecorp-enterprise-soar/
 │
-├── automation/
-│   ├── config/
-│   │   ├── live_sysmon_monitor.py
-│   │   └── telegram_config.py
-│   │
-│   ├── detection/
-│   │   └── alert_engine.py
-│   │
-│   ├── mitre/
-│   │   ├── mapping.py
-│   │   └── enterprise-attack.json
-│   │
-│   ├── notifications/
-│   │   └── telegram_notifier.py
-│   │
-│   ├── datasets/
-│   │   └── recon_events.json
-│   │
-│   └── watcher.py
-│
 ├── KALI ATTACKS/
-│   ├── K1-Nmap-Initial-TCP-Port-Reconnaissance.png
-│   ├── K2-Nmap-Service-Version-Enumeration.png
-│   ├── K3-Controlled-SMB-Password-Guessing-Test.png
-│   └── K4-Encoded-PowerShell-Execution-Simulation.png
 │
 ├── WAZUH/
-│   └── W3-Kali-Originated-Failed-Authentication-Event-4625.png
 │
 ├── TELEGRAM REPORTS/
-│   ├── T1-Telegram-Inbound-SSH-Connection-Alert.png
-│   ├── T1.1-Telegram-SSH-Connection-Alert-Assessment-Continuation.png
-│   ├── T2-Telegram-Inbound-NetBIOS-Port-139-Connection.png
-│   ├── T2.1-Telegram-Inbound-SMB-Port-445-Connection-Details.png
-│   ├── T2.2-Telegram-Inbound-MSRPC-Port-135-Connection.png
-│   ├── T3-Telegram-High-Severity-Password-Guessing-Detection.png
-│   ├── T3.1-Telegram-Password-Guessing-MITRE-T1110.001-Assessment.png
-│   ├── T4-Telegram-High-Severity-Encoded-PowerShell-Detection.png
-│   └── T4.1-Telegram-MITRE-T1059.001-PowerShell-Execution-Assessment.png
 │
-├── README.md
-└── requirements.txt
+├── DEMO VIDEOS/
+│   ├── 01-encoded-powershell-detection-demo.mp4
+│   ├── 02-kali-smb-authentication-test-demo.mp4
+│   └── 03-smb-password-guessing-monitoring-demo.mp4
+│
+├── SOAR-SOURCE-REVIEW/
+│   ├── attack_runner.py
+│   ├── requirements.txt
+│   ├── telegram_test.py
+│   │
+│   └── automation/
+│       ├── README.md
+│       ├── watcher.py
+│       ├── telegram_test.py
+│       │
+│       ├── attack_framework/
+│       │   ├── kali_simulator.py
+│       │   ├── lolbin_simulator.py
+│       │   ├── powershell_simulator.py
+│       │   └── windows_attack.py
+│       │
+│       ├── config/
+│       │   ├── live_sysmon_monitor.py
+│       │   └── telegram_config.py
+│       │
+│       ├── core/
+│       │   ├── constants.py
+│       │   ├── main.py
+│       │   ├── menu.py
+│       │   └── version.py
+│       │
+│       ├── detection/
+│       │   ├── __init__.py
+│       │   ├── alert_engine.py
+│       │   └── parser.py
+│       │
+│       ├── engines/
+│       │   ├── sentinel_engine.py
+│       │   ├── splunk_engine.py
+│       │   └── wazuh_engine.py
+│       │
+│       ├── mitre/
+│       │   ├── mapping.py
+│       │   └── techniques.json
+│       │
+│       ├── notifications/
+│       │   ├── __init__.py
+│       │   ├── report_generator.py
+│       │   └── telegram_notifier.py
+│       │
+│       └── utils/
+│           ├── banner.py
+│           ├── colors.py
+│           ├── helpers.py
+│           └── logger.py
+│
+└── README.md
 ```
 
-*Note: This is the documented logical structure of the project and its evidence. Keep the actual source tree and filenames consistent with the files uploaded to the repository. Do not create empty or placeholder modules simply to match this illustration.*
+The `SOAR-SOURCE-REVIEW` directory is a separately published source package. Its modules are included for inspection and further development; their presence does not imply that every component is active in the demonstrated workflow.
 
-## 10. Security and Operational Considerations
+*Note: The original logical project structure and evidence organisation are retained. The source-review tree above reflects the files published in the repository. Do not create empty or placeholder modules simply to match this illustration.*
+
+## 10. Source Code Setup and Installation
+
+The published source code is available under:
+
+`SOAR-SOURCE-REVIEW/`
+
+### Requirements
+
+- Windows 10 or Windows 11 for the Windows endpoint monitoring components.
+- Python 3.
+- Git, for cloning the repository.
+- Required Python packages listed in the included `requirements.txt`.
+- A Telegram bot and chat ID if Telegram notifications are to be configured.
+- Appropriate Windows event-log permissions for endpoint monitoring.
+
+### Step 1 — Clone the repository
+
+```powershell
+git clone https://github.com/DanielNwachukwu/bazecorp-enterprise-soar.git
+```
+
+### Step 2 — Enter the source directory
+
+```powershell
+cd bazecorp-enterprise-soar
+cd SOAR-SOURCE-REVIEW
+```
+
+### Step 3 — Create a virtual environment
+
+```powershell
+python -m venv venv
+```
+
+Activate it:
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+If PowerShell blocks activation, use an appropriate execution policy for your environment or activate the environment through another supported method.
+
+### Step 4 — Install dependencies
+
+```powershell
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+### Step 5 — Configure Telegram credentials
+
+Open:
+
+`automation/config/telegram_config.py`
+
+The published configuration contains placeholders:
+
+```python
+BOT_TOKEN = "INPUT YOUR TELEGRAM BOT TOKEN HERE"
+CHAT_ID = "INPUT CHAT ID HERE"
+```
+
+Replace these placeholders locally with your own Telegram bot token and chat ID.
+
+**Never commit actual credentials to GitHub.**
+
+The configuration file is retained because other modules import it. Keep your locally configured version out of public commits.
+
+### Step 6 — Review the source before execution
+
+Inspect the project documentation and Python modules before running any component.
+
+The published package includes attack simulation modules, detection modules, monitoring components, MITRE ATT&CK mapping, notification modules and SIEM integration engine files.
+
+The package is published for source inspection and further development. The presence of a module does not establish that it is fully configured, operational or integrated with the demonstrated live workflow.
+
+*Installation instructions are provided for setting up the Python environment. Successful installation does not, by itself, guarantee that every module will operate without additional configuration.*
+
+## 11. Security and Operational Considerations
 
 - Telegram bot credentials must never be committed to a public repository.
 - Use environment variables or a locally excluded configuration file for secrets.
@@ -365,7 +497,7 @@ bazecorp-enterprise-soar/
 - Preserve analyst approval for response actions.
 - Validate detection rules against genuine event evidence before treating an alert as confirmed malicious activity.
 
-## 11. Current Demonstrated Capabilities and Limitations
+## 12. Current Demonstrated Capabilities and Limitations
 
 The available lab evidence demonstrates:
 
@@ -380,27 +512,19 @@ The available lab evidence demonstrates:
 - Wazuh collection and review of endpoint security events.
 - Analyst-led incident assessment and response decisions.
 
-The available evidence does not establish successful exploitation, account compromise, a successful malware infection, or complete coverage of all network scanning activity. Aggregated high-severity Nmap detection remains a separate validation requirement.
+The published source package additionally provides code for inspection across attack simulation, detection, MITRE mapping, notification and SIEM integration areas.
 
-## 12. Disclaimer — Simulated Enterprise Environment
+### Current limitations and validation requirements
 
-**BAZECORP Enterprise SOAR is an independently developed cybersecurity project designed to demonstrate how an enterprise SOC and SOAR solution can operate.**
+- The source-review package is not a declaration that every included module is fully operational.
+- The included Splunk, Wazuh and Sentinel engine files require individual configuration and validation before they can be considered operational integrations.
+- The current source package contains a legacy Splunk-oriented monitoring workflow; it should not be interpreted as proof that the complete no-Splunk BAZECORP architecture has been implemented.
+- Some modules may require further development, dependency correction or integration.
+- The available evidence does not establish successful exploitation, account compromise, a successful malware infection, or complete coverage of all network scanning activity.
+- Aggregated high-severity Nmap detection remains a separate validation requirement.
 
-The name BAZECORP is used as a fictional enterprise environment for demonstration and educational purposes. This project does not represent, belong to, or claim deployment within any actual organisation or employer, including any organisation with a similar name.
+The available evidence supports the demonstrated capabilities listed above, not claims of complete enterprise production readiness.
 
-All displayed IP addresses, hostnames, usernames, network configurations, security events, incident reports and other organisational details are simulated lab information or controlled test data. They must not be interpreted as actual infrastructure, confidential information, or security incidents belonging to a real organisation.
+## 13. Disclaimer — Simulated Enterprise Environment
 
-This project is independently developed and tested in a controlled virtual lab environment. Its purpose is to demonstrate enterprise-style security monitoring, threat detection, event correlation, MITRE ATT&CK enrichment, automated incident reporting and analyst-led response workflows.
-
-## 13. Project Philosophy
-
-The objective is not simply to generate alerts. It is to demonstrate how security telemetry can be transformed into structured, contextualised and actionable information for SOC analysts.
-
-**Detect. Correlate. Enrich. Report. Investigate.**
-
-**FINAL DECISION LEFT FOR THE ANALYST.**
-
----
-
-**BAZECORP Enterprise SOAR**  
-*Automated Security Monitoring & Incident Reporting*
+**BAZEC
